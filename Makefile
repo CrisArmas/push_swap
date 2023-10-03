@@ -1,33 +1,60 @@
-CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra
-NAME	= push_swap
+#  |  |  ___ \    \  |         |
+#  |  |     ) |  |\/ |   _  |  |  /   _ 
+# ___ __|  __/   |   |  (   |    <    __/ 
+#    _|  _____| _|  _| \__,_| _|\_\ \___|
+#                              by jcluzet
+################################################################################
+#                                     CONFIG                                   #
+################################################################################
 
-SRC_PATH = src/
-OBJ_PATH = obj/
+NAME        := push_swap
+CC        := gcc
+FLAGS    := -Wall -Wextra -Werror -g3
+################################################################################
+#                                 PROGRAM'S SRCS                               #
+################################################################################
 
-SRC		= 
-SRCS	= $(addprefix $(SRC_PATH), $(SRC))
-OBJ	= $(SRC:.c=.o)
-OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
-INCS	= -I ./includes/
+SRCS        :=      push_swap.c \
+                          ft_atoi.c \
+			  func1.c \
 
-all: $(OBJ_PATH) $(NAME) 
+OBJS        := $(SRCS:.c=.o)
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
-	$(CC) $(CFLAGS) -c $< -o $@ $(INCS)
+.c.o:
+	${CC} ${FLAGS} -c $< -o ${<:.c=.o}
 
-$(OBJ_PATH):
-	mkdir $(OBJ_PATH)
+################################################################################
+#                                  Makefile  objs                              #
+################################################################################
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+
+CLR_RMV		:= \033[0m
+RED		    := \033[1;31m
+GREEN		:= \033[1;32m
+YELLOW		:= \033[1;33m
+BLUE		:= \033[1;34m
+CYAN 		:= \033[1;36m
+RM		    := rm -f
+
+${NAME}:	${OBJS}
+			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
+			${CC} ${FLAGS} -o ${NAME} ${OBJS}
+			@echo "$(GREEN)$(NAME) created[0m ✔️"
+
+all:		${NAME}
+
+bonus:		all
 
 clean:
-	rm -rf $(OBJ_PATH)
+			@ ${RM} *.o */*.o */*/*.o
+			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
 
-fclean: clean
-	rm -f $(NAME)
+fclean:		clean
+			@ ${RM} ${NAME}
+			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
 
-re: fclean all
+re:			fclean all
 
-.PHONY: all clean fclean re
+.PHONY:		all clean fclean re
+
+

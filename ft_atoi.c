@@ -1,37 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: carmas <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 15:18:08 by carmas            #+#    #+#             */
-/*   Updated: 2023/10/03 19:09:26 by carmas           ###   ########.fr       */
+/*   Created: 2023/05/10 14:34:39 by carmas            #+#    #+#             */
+/*   Updated: 2023/05/31 10:49:04 by carmas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
+#include "push_swap.h"
 
-typedef struct	s_element
+int	ft_atoi(const char *nptr)
 {
-	int	value;
-	struct s_element	*next;	
-}	t_element;
+	int	result;
+	int	sign;
 
-typedef struct	s_data
-{
-	t_element	*pilea;
-	t_element	*pileb;
-}	t_data;
-
-int	ft_atoi(const char *nptr);
-void	sa(t_data *data);
-void	sb(t_data *data);
-void	ss(t_data *data, t_data *datab);
-
-
-#endif
+	result = 0;
+	sign = 1;
+	while ((*nptr >= 9 && *nptr <= 13) || *nptr == ' ')
+	{
+		nptr++;
+	}
+	if (*nptr == '-')
+	{
+		sign = -1;
+		nptr++;
+	}
+	else if (*nptr == '+')
+		nptr++;
+	while (*nptr >= '0' && *nptr <= '9')
+	{
+		result = result * 10 + (*nptr - '0');
+		nptr++;
+	}
+	return (sign * result);
+}	
