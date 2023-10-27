@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: carmas <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: carmas <carmas@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/10/04 14:49:36 by carmas            #+#    #+#              #
-#    Updated: 2023/10/04 14:49:39 by carmas           ###   ########.fr        #
+#    Created: 2023/10/04 14:46:40 by carmas            #+#    #+#              #
+#    Updated: 2023/10/26 15:54:33 by carmas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,13 @@ FLAGS    := -Wall -Wextra -Werror -g3
 ################################################################################
 
 SRCS        :=      push_swap.c \
-                          ft_atoi.c \
-			  func1.c \
-
+					func1.c \
+					sort.c \
+					instruct_push.c \
+					instruct_rotate.c \
+					instruct_swap.c \
+					instruct_revrotate.c
+					
 OBJS        := $(SRCS:.c=.o)
 
 .c.o:
