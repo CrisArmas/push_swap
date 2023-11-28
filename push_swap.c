@@ -6,7 +6,7 @@
 /*   By: carmas <carmas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:16:55 by carmas            #+#    #+#             */
-/*   Updated: 2023/10/27 15:54:25 by carmas           ###   ########.fr       */
+/*   Updated: 2023/11/22 11:40:28 by carmas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ void	display(t_data *data)
 void	new_element(char *arg, t_data *data)
 {
 	t_element	*element;
+	t_element	*tmp;
 
 	element = (t_element *)malloc(sizeof(t_element));
+	tmp = NULL;
 	if (!element)
 		return ;
 	element->next = NULL;
@@ -56,61 +58,68 @@ void	new_element(char *arg, t_data *data)
 	}
 	else
 	{
-		element->next = data->pilea;
-		data->pilea = element;
+		tmp = data->pilea;
+		while (data->pilea->next)
+			data->pilea = data->pilea->next;
+		data->pilea->next = element;
+		data->pilea = tmp;
 	}
 }
 
-//(write(2, "Erreur", 6));
-/*
+void	free_stacks(t_data *data)
+{
+	t_element	*tmp;
+
+	while (data->pilea)
+	{
+		tmp = data->pilea;
+		data->pilea = data->pilea->next;
+		free(tmp);
+	}
+	while (data->pileb)
+	{
+		tmp = data->pileb;
+		data->pileb = data->pileb->next;
+		free(tmp);
+	}
+}
+
+void	main_suite(t_data *data)
+{
+	if (data->pilea != NULL && data->pilea->next != NULL)
+	{
+		if (is_sorted(data))
+			return ;
+		get_min_max(data);
+		fill_index(data);
+		sort(data);
+	}
+	free_split(data->args);
+	free_stacks(data);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_data	data;
 	int		i;
 
+	i = 0;
 	data.pilea = NULL;
 	data.pileb = NULL;
-	i = 1;
-	if (argc == 1) // If there is no arguments
-		return (0); // Exit the program
-	while (i < argc)  
+	if (argc == 1)
+		return (0);
+	else if (argc == 2)
+		data.args = ft_split(argv[1], ' ');
+	else
+		data.args = ++argv;
+	if (!check_arg(data.args))
+		return (write(2, "Error\n", 6));
+	if (!check_doublon(data.args))
+		return (write(2, "Error\n", 6));
+	while (data.args[i])
 	{
-		new_element(argv[i], &data);
+		new_element(data.args[i], &data);
 		i++;
 	}
-	if (data.pilea != NULL && data.pilea->next != NULL)
-		sort(&data);
-	return (0);
-}
-*/
-int	main(int argc, char *argv[])
-{
-    t_data	data;
-
-    data.pilea = NULL;
-    data.pileb = NULL;
-    if (argc == 1) // If there is no arguments
-        return (0); // Exit the program
-    if (!check_arg(argv)) // Check if arguments are valid
-    {
-        write(2, "Error\n", 6);
-        return (1);
-    }
-    if (!check_doublon(argv)) // Check if there are any duplicates
-    {
-        write(2, "Error\n", 6); // If there are duplicates, exit the program
-        return (1);
-    }
-    while (*argv)
-    {
-        new_element(*argv, &data);
-        argv++;
-    }
-    if (data.pilea != NULL && data.pilea->next != NULL)
-	{
-		if (is_sorted(&data)==0)
-			return (0);
-	}
-		sort(&data);
-    return (0);
+	main_suite(&data);
 }

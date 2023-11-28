@@ -6,7 +6,7 @@
 #    By: carmas <carmas@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/04 14:46:40 by carmas            #+#    #+#              #
-#    Updated: 2023/10/26 15:54:33 by carmas           ###   ########.fr        #
+#    Updated: 2023/11/22 14:12:31 by carmas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,14 +16,19 @@
 
 NAME        := push_swap
 CC        := gcc
-FLAGS    := -Wall -Wextra -Werror -g3
+FLAGS    := -Wall -Wextra -Werror -g3 #-g -02 
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
 SRCS        :=      push_swap.c \
 					func1.c \
+					func2.c \
+					func3.c	\
+					func4.c \
 					sort.c \
+					is_sorted.c \
+					checking.c \
 					instruct_push.c \
 					instruct_rotate.c \
 					instruct_swap.c \

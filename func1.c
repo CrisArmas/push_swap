@@ -6,219 +6,106 @@
 /*   By: carmas <carmas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 17:57:48 by carmas            #+#    #+#             */
-/*   Updated: 2023/10/27 15:02:00 by carmas           ###   ########.fr       */
+/*   Updated: 2023/11/22 15:35:31 by carmas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	check_arg(char **argv)
+static int	ft_count_words(char const *s, char c)
 {
-	size_t	count;
-	char	sign;
+	int	count;
+	int	i;
 
 	count = 0;
-	while (argv[++count] != NULL)
+	i = 0;
+	while (s[i])
 	{
-		sign = 0;
-		if (argv[count][0] == '-')
-			sign = 1;
-		if (ft_strlen(argv[count] + sign) == 0 ||
-				!ft_atol(argv[count]) ||
-				!ft_str_is_numeric(argv[count] + sign))
-			return (0);
+		while (s[i] == c)
+			i++;
+		if (s[i] != '\0')
+			count++;
+		while (s[i] && s[i] != c)
+			i++;
 	}
-	return (check_doublon(argv));
+	return (count);
 }
 
-int	check_doublon(char **argv)
+static char	*ft_word_alloc(char const *s, char c)
 {
-	size_t	count;
-	size_t	count2;
-	int		tmp;
+	char	*word;
+	int		i;
 
-	count = 0;
-	while (argv[++count] != NULL)
+	i = 0;
+	while (s[i] && s[i] != c)
+		i++;
+	word = (char *)malloc(sizeof(char) * (i + 1));
+	i = 0;
+	while (s[i] && s[i] != c)
 	{
-		tmp = ft_atoi(argv[count]);
-		count2 = count;
-		while (argv[++count2] != NULL)
-		{
-			if (ft_atoi(argv[count2]) == tmp)
-				return (0);
-		}
+		word[i] = s[i];
+		i++;
 	}
-	return (1);
+	word[i] = '\0';
+	return (word);
 }
 
-long	ft_atol(const char *str)
-{
-    long	result;
-    int		sign;
-
-    result = 0;
-    sign = 1;
-    while (*str == ' ' || (*str >= '\t' && *str <= '\r'))
-        str++;
-    if (*str == '-' || *str == '+')
-    {
-        if (*str == '-')
-            sign = -1;
-        str++;
-    }
-    while (*str >= '0' && *str <= '9')
-    {
-        result = result * 10 + (*str - '0');
-        str++;
-    }
-    return (result * sign);
-}
-
-int	ft_str_is_numeric(const char *str)
-{
-    while (*str)
-    {
-        if (*str < '0' || *str > '9')
-            return (0);
-        str++;
-    }
-    return (1);
-}
-size_t	ft_strlen(const char *s)
-{
-    size_t	len;
-
-    len = 0;
-    while (*s)
-    {
-        len++;
-        s++;
-    }
-    return (len);
-}
-
-void	ft_putstr_fd(char *s, int fd)
-{
-    if (s == NULL)
-        return ;
-    write(fd, s, ft_strlen(s));
-}
-
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-void	ft_putstr(char *str)
+void	free_split(char **str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] != '\0')
-	{
-		ft_putchar(str[i]);
-		i++;
-	}
+	while (str[i])
+		free(str[i++]);
+	free(str);
 }
 
-int	ft_atoi(const char *nptr)
+char	**ft_split(char const *s, char c)
 {
-	int	result;
-	int	sign;
+	char	**tab;
+	int		i;
+	int		j;
 
-	result = 0;
+	tab = (char **)malloc(sizeof(char *) * (ft_count_words(s, c) + 1));
+	if (!tab)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		while (s[i] == c)
+			i++;
+		if (s[i])
+		{
+			tab[j] = ft_word_alloc(&s[i], c);
+			j++;
+			while (s[i] && s[i] != c)
+				i++;
+		}
+	}
+	tab[j] = NULL;
+	return (tab);
+}
+
+long	ft_atol(const char *str)
+{
+	long	result;
+	int		sign;
+
+	result = 1;
 	sign = 1;
-	while ((*nptr >= 9 && *nptr <= 13) || *nptr == ' ')
+	while (*str == ' ' || (*str >= '\t' && *str <= '\r'))
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		nptr++;
+		if (*str == '-')
+			sign = -1;
+		str++;
 	}
-	if (*nptr == '-')
+	while (*str >= '0' && *str <= '9')
 	{
-		sign = -1;
-		nptr++;
+		result = result * 10 + (*str - '0');
+		str++;
 	}
-	else if (*nptr == '+')
-		nptr++;
-	while (*nptr >= '0' && *nptr <= '9')
-	{
-		result = result * 10 + (*nptr - '0');
-		nptr++;
-	}
-	return (sign * result);
+	return (result * sign);
 }
-
-void	push_swap(t_data *data)
-{
-	t_element	*current_node_a;
-
-	current_node_a = data->pilea;
-	while (current_node_a)
-	{
-		pb(data);
-		printf("pb\n");
-		display(data);
-		current_node_a = current_node_a->next;
-	}
-	while (data->pileb)
-	{
-		if (data->pileb->next && data->pileb->value < data->pileb->next->value)
-		{
-			sb(data);
-			printf("sb\n");
-			display(data);
-		}
-		else
-		{
-			pa(data);
-			printf("pa\n");
-			display(data);
-		}
-	}
-}
-/*
-void	sort(t_data *data)
-{
-    int		min_value;
-    int		min_index;
-
-    while (data->pilea)
-    {
-        min_value = INT_MAX;
-        min_index = 0;
-        while (data->pilea)
-        {
-            if (data->pilea->value < min_value)
-            {
-                min_value = data->pilea->value;
-                min_index = 1;
-            }
-            data->pilea = data->pilea->next;
-        }
-        while (min_index--)
-            pb(data);
-    }
-    while (data->pileb)
-        pa(data);
-    display(data);
-}
-*/
-void	sort(t_data *data)
-{
-	if (is_sorted(data))
-		return ;
-	if (get_len(data->pilea) == 2)
-	{
-		if (data->pilea->value > data->pilea->next->value)
-			sa(data);
-		return ;
-	}
-	else if (get_len(data->pilea) == 3)
-		sort_three(data);
-	else if (get_len(data->pilea) <= 4)
-		sort_four(data);
-	else if (get_len(data->pilea) <= 5)
-		sort_five(data);
-	else if (get_len(data->pilea) <= 100)
-		sort_hundred(data);
-}
-
