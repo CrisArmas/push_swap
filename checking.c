@@ -6,7 +6,7 @@
 /*   By: carmas <carmas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 14:10:28 by carmas            #+#    #+#             */
-/*   Updated: 2023/11/22 11:59:36 by carmas           ###   ########.fr       */
+/*   Updated: 2023/11/30 14:10:04 by carmas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,18 @@
 int	check_arg(char **argv)
 {
 	size_t	count;
-	char	sign;
 
 	count = 0;
-	while (argv[++count] != NULL)
+	while (argv[count] != NULL)
 	{
-		sign = 0;
-		if (argv[count][0] == '-')
-			sign = 1;
-		if (ft_strlen(argv[count] + sign) == 0
-			|| !ft_atol(argv[count])
-			|| !ft_str_is_numeric(argv[count] + sign))
+		if (ft_strlen(argv[count]) == 0
+			|| ft_str_is_numeric(argv[count])
+			|| INT_MAX < ft_atol(argv[count])
+			|| INT_MIN > ft_atol(argv[count]))
 			return (0);
+		count++;
 	}
-	return (check_doublon(argv));
+	return (-1);
 }
 
 int	check_doublon(char **argv)
@@ -76,4 +74,16 @@ int	ft_atoi(const char *nptr)
 		nptr++;
 	}
 	return (sign * result);
+}
+
+void	free_list(t_element *list)
+{
+	t_element	*tmp;
+
+	while (list)
+	{
+		tmp = list;
+		list = list->next;
+		free(tmp);
+	}
 }

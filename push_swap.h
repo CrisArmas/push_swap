@@ -6,7 +6,7 @@
 /*   By: carmas <carmas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 15:18:08 by carmas            #+#    #+#             */
-/*   Updated: 2023/11/22 13:58:43 by carmas           ###   ########.fr       */
+/*   Updated: 2023/11/30 14:10:13 by carmas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void					sort_five(t_data *data);
 void					push_min_to_a(t_data *data);
 void					ft_radix(t_data *data);
 void					fill_index(t_data *data);
-void					free_split(char **str);
+void					free_split(t_data *data);
+void					free_list(t_element *list);
 int						get_min(t_element *pile);
 int						get_max(t_element *pile);
 int						get_min_index(t_element *pile);

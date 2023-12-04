@@ -6,7 +6,7 @@
 /*   By: carmas <carmas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 17:57:48 by carmas            #+#    #+#             */
-/*   Updated: 2023/11/22 15:35:31 by carmas           ###   ########.fr       */
+/*   Updated: 2023/11/24 15:39:23 by carmas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ static char	*ft_word_alloc(char const *s, char c)
 	return (word);
 }
 
-void	free_split(char **str)
+void	free_split(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
-		free(str[i++]);
-	free(str);
+	while (data->args[i])
+		free(data->args[i++]);
+	free(data->args);
 }
 
 char	**ft_split(char const *s, char c)
@@ -92,7 +92,7 @@ long	ft_atol(const char *str)
 	long	result;
 	int		sign;
 
-	result = 1;
+	result = 0;
 	sign = 1;
 	while (*str == ' ' || (*str >= '\t' && *str <= '\r'))
 		str++;

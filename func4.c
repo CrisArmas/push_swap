@@ -6,7 +6,7 @@
 /*   By: carmas <carmas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 13:56:25 by carmas            #+#    #+#             */
-/*   Updated: 2023/11/22 15:28:02 by carmas           ###   ########.fr       */
+/*   Updated: 2023/11/30 16:28:28 by carmas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,28 +58,22 @@ void	add_back(t_data *data, int i)
 
 void	sort_five(t_data *data)
 {
-	t_element	*current;
 	int			i;
 
-	pb(data);
-	pb(data);
+	i = 0;
+	while (i < 5)
+	{
+		if (data->pilea->index == 0 || data->pilea->index == 1)
+			pb(data);
+		else
+			ra(data);
+		i++;
+	}
 	sort_three(data);
-	i = 0;
-	current = data->pilea;
-	while (current && data->pileb->index > current->index)
-	{
-		i++;
-		current = current->next;
-	}
-	add_back(data, i);
-	i = 0;
-	current = data->pilea;
-	while (current && data->pileb->index > current->index)
-	{
-		i++;
-		current = current->next;
-	}
-	add_back(data, i);
+	if (data->pileb->index == 0)
+		rb(data);
+	pa(data);
+	pa(data);
 }
 
 int	get_len(t_element *pile)

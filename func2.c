@@ -6,7 +6,7 @@
 /*   By: carmas <carmas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 11:51:24 by carmas            #+#    #+#             */
-/*   Updated: 2023/11/22 13:29:06 by carmas           ###   ########.fr       */
+/*   Updated: 2023/11/30 16:27:13 by carmas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	find_min(t_element *pile)
 	int			min_val;
 	t_element	*current;
 
-	min_val = pile->value;
-	current = pile->next;
+	min_val = pile->value + 1;
+	current = pile;
 	while (current != NULL)
 	{
 		if (current->value < min_val)
@@ -49,41 +49,41 @@ int	find_min(t_element *pile)
 	return (min_val);
 }
 
-void	find_min_value(t_data *data, int i, t_element **tmp)
+void	find_min_value(t_data *data, int i)
 {
-	int				min_val;
+	long long		min_val;
 	t_element		*current;
+	t_element		*tmp;
 
-	min_val = data->max_value + 1;
+	min_val = (long long)data->max_value + 1;
 	current = data->pilea;
 	while (current != NULL)
 	{
 		if (current->value < min_val && current->value > data->min_value)
 		{
 			min_val = current->value;
-			*tmp = current;
+			tmp = current;
 		}
 		current = current->next;
 	}
-	(*tmp)->index = i;
+	tmp->index = i;
 	data->min_value = min_val;
 }
 
 void	fill_index(t_data *data)
 {
 	int				i;
-	t_element		*tmp;
-	t_element		*current;
+	// t_element		*current;
 
 	i = 1;
 	while (i < data->total)
 	{
-		find_min_value(data, i, &tmp);
+		find_min_value(data, i);
 		i++;
 	}
-	current = data->pilea;
-	while (current)
-		current = current->next;
+	// current = data->pilea;
+	// while (current)
+	// 	current = current->next;
 }
 
 void	get_min_max(t_data *data)
